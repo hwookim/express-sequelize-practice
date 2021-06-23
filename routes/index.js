@@ -9,7 +9,8 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/places", (req, res, next) => {
-  res.json(PLACES);
+  const response = req.query.id ? PLACES[req.query.id] : PLACES;
+  res.json(response);
 });
 
 module.exports = router;
