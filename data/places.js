@@ -486,4 +486,4 @@ const PLACES = [
   },
 ];
 
-export default PLACES;
+module.exports = PLACES;
