@@ -10,11 +10,18 @@ router.get("/", function (req, res) {
 
 router.get("/places", (req, res) => {
   const response = req.query.id ? PLACES[req.query.id] : PLACES;
+  if (!response) {
+    res.status(404).send("not found");
+  }
   res.json(response);
 });
 
 router.get("/places/:id", (req, res) => {
-  res.json(PLACES[req.params.id]);
+  const response = PLACES[req.params.id];
+  if (!response) {
+    res.status(404).send("not found");
+  }
+  res.json(response);
 });
 
 module.exports = router;
