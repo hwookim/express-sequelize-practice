@@ -13,4 +13,8 @@ router.get("/places", (req, res) => {
   res.json(response);
 });
 
+router.get("/places/:id", (req, res) => {
+  res.json(PLACES[req.params.id]);
+});
+
 module.exports = router;
