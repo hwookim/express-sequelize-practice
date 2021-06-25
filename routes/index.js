@@ -24,4 +24,10 @@ router.get("/places/:id", (req, res) => {
   res.json(response);
 });
 
+router.post("/places", (req, res) => {
+  const { body } = req;
+  PLACES.push(body);
+  res.json(body);
+});
+
 module.exports = router;
