@@ -10,7 +10,7 @@ const app = express();
 
 function middleware(req, res, next) {
   console.log("middleware");
-  next();
+  next(new Error("err"));
 }
 
 // view engine setup
@@ -40,6 +40,10 @@ app.use(function (err, req, res) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+app.use((err, req, res, next) => {
+  console.log(err.message);
+  next();
 });
 
 module.exports = app;
