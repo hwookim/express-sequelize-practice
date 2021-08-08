@@ -1,6 +1,9 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
+
+type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 
 interface AppProps {
+  middlewares?: Middleware[];
   port?: number;
 }
 
@@ -16,14 +19,17 @@ export default class App {
   }
 
   init(props: AppProps) {
-    const { port } = props;
+    const { middlewares, port } = props;
+    this.setMiddleware(middlewares || []);
     this.port = port || this.port;
   }
 
+  setMiddleware(middlewares: Middleware[]) {
+    middlewares.forEach((middleware) => this.application.use(middleware));
+  }
+
   listen(port?: number) {
-    if (port) {
-      this.port = port || this.port;
-    }
+    this.port = port || this.port;
     this.application
       .listen(this.port, () => {
         console.log("----------------------------------------");
