@@ -1,17 +1,33 @@
 import express from "express";
 
-export default class App {
-  public application: express.Application;
+interface AppProps {
+  port?: number;
+}
 
-  constructor() {
+export default class App {
+  private application: express.Application;
+  private port: number = 3000;
+
+  constructor(props?: AppProps) {
     this.application = express();
+    if (props) {
+      this.init(props);
+    }
   }
 
-  listen(port: number) {
+  init(props: AppProps) {
+    const { port } = props;
+    this.port = port || this.port;
+  }
+
+  listen(port?: number) {
+    if (port) {
+      this.port = port || this.port;
+    }
     this.application
-      .listen(port, () => {
+      .listen(this.port, () => {
         console.log("----------------------------------------");
-        console.log("     Server listening on port " + port);
+        console.log("     Server listening on port " + this.port);
         console.log("----------------------------------------");
       })
       .on("error", (err) => {
