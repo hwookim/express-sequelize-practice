@@ -24,6 +24,15 @@ export default class App {
     this.port = port || this.port;
   }
 
+  run(props?: AppProps) {
+    if (props) {
+      this.application = express();
+      this.init(props);
+      return;
+    }
+    this.listen();
+  }
+
   setMiddleware(middlewares: Middleware[]) {
     middlewares.forEach((middleware) => this.application.use(middleware));
   }
