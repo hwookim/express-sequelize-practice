@@ -30,7 +30,7 @@ export default class App {
   init(props: AppProps) {
     this.application = express();
     const { port, middlewares, errorHandlers } = props;
-    this.port = port || this.port;
+    this.setPort(port || this.port);
     this.setMiddleware(middlewares);
     this.setErrorHandler(errorHandlers);
   }
@@ -40,20 +40,28 @@ export default class App {
       this.init(props);
     }
     this.listen(this.port);
+    return this;
+  }
+
+  setPort(port: number) {
+    this.port = port;
+    return this;
   }
 
   setMiddleware(middlewares: Middleware[] = []) {
     this.middlewares = this.middlewares.concat(middlewares);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
+    return this;
   }
 
   setErrorHandler(errorHandlers: ErrorHandler[] = []) {
     this.errorHandlers = this.errorHandlers.concat(errorHandlers);
     this.errorHandlers.forEach((handler) => this.application.use(handler));
+    return this;
   }
 
   listen(port: number) {
-    this.port = port;
+    this.setPort(port);
     this.application
       .listen(this.port, () => {
         console.log("----------------------------------------");
@@ -64,5 +72,6 @@ export default class App {
         console.log(err);
         process.exit(1);
       });
+    return this;
   }
 }
