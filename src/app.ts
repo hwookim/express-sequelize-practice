@@ -48,13 +48,13 @@ export default class App {
     return this;
   }
 
-  setMiddleware(middlewares: Middleware[] = []) {
+  setMiddleware(middlewares: Middleware | Middleware[] = []) {
     this.middlewares = this.middlewares.concat(middlewares);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
     return this;
   }
 
-  setErrorHandler(errorHandlers: ErrorHandler[] = []) {
+  setErrorHandler(errorHandlers: ErrorHandler | ErrorHandler[] = []) {
     this.errorHandlers = this.errorHandlers.concat(errorHandlers);
     this.errorHandlers.forEach((handler) => this.application.use(handler));
     return this;
