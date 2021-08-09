@@ -40,7 +40,7 @@ export default class App {
       this.init(props);
       return;
     }
-    this.listen();
+    this.listen(this.port);
   }
 
   setMiddleware(middlewares: Middleware[] = []) {
@@ -53,8 +53,8 @@ export default class App {
     this.errorHandlers.forEach((handler) => this.application.use(handler));
   }
 
-  listen(port?: number) {
-    this.port = port || this.port;
+  listen(port: number) {
+    this.port = port;
     this.application
       .listen(this.port, () => {
         console.log("----------------------------------------");
