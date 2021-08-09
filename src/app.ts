@@ -38,7 +38,6 @@ export default class App {
   run(props?: AppProps) {
     if (props) {
       this.init(props);
-      return;
     }
     this.listen(this.port);
   }
