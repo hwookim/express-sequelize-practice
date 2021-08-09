@@ -17,6 +17,8 @@ interface AppProps {
 export default class App {
   private application: express.Application;
   private port: number = 3000;
+  private middlewares: Middleware[] = [];
+  private errorHandlers: ErrorHandler[] = [];
 
   constructor(props?: AppProps) {
     this.application = express();
@@ -26,6 +28,7 @@ export default class App {
   }
 
   init(props: AppProps) {
+    this.application = express();
     const { port, middlewares, errorHandlers } = props;
     this.port = port || this.port;
     this.setMiddleware(middlewares || []);
@@ -34,7 +37,6 @@ export default class App {
 
   run(props?: AppProps) {
     if (props) {
-      this.application = express();
       this.init(props);
       return;
     }
@@ -42,11 +44,13 @@ export default class App {
   }
 
   setMiddleware(middlewares: Middleware[]) {
-    middlewares.forEach((middleware) => this.application.use(middleware));
+    this.middlewares = this.middlewares.concat(middlewares);
+    this.middlewares.forEach((middleware) => this.application.use(middleware));
   }
 
   setErrorHandler(errorHandlers: ErrorHandler[]) {
-    errorHandlers.forEach((handler) => this.application.use(handler));
+    this.errorHandlers = this.errorHandlers.concat(errorHandlers);
+    this.errorHandlers.forEach((handler) => this.application.use(handler));
   }
 
   listen(port?: number) {
