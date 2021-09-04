@@ -9,5 +9,6 @@ new App()
   .setMiddleware([express.json(), rootRouter])
   .setErrorHandler((err, req, res, next) => console.log(err))
   .run({}, async () => {
-    await sequelize.sync();
+    // force option must be only practice
+    await sequelize.sync({ force: true });
   });
