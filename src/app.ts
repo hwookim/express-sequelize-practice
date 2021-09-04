@@ -1,5 +1,7 @@
 import express, { ErrorRequestHandler, RequestHandler } from "express";
 
+type Callback = () => void;
+
 interface AppProps {
   middlewares?: RequestHandler[];
   errorHandlers?: ErrorRequestHandler[];
@@ -11,6 +13,7 @@ export default class App {
   private port: number = 3000;
   private middlewares: RequestHandler[] = [];
   private errorHandlers: ErrorRequestHandler[] = [];
+  private callback?: Callback;
 
   constructor(props?: AppProps) {
     this.application = express();
@@ -19,19 +22,20 @@ export default class App {
     }
   }
 
-  init(props: AppProps) {
+  init(props: AppProps, callback?: Callback) {
     this.application = express();
     const { port, middlewares, errorHandlers } = props;
     this.setPort(port || this.port);
     this.setMiddleware(middlewares);
     this.setErrorHandler(errorHandlers);
+    this.callback = callback;
   }
 
-  run(props?: AppProps) {
+  run(props?: AppProps, callback?: Callback) {
     if (props) {
-      this.init(props);
+      this.init(props, callback);
     }
-    this.listen(this.port);
+    this.listen(this.port, callback);
     return this;
   }
 
@@ -54,13 +58,17 @@ export default class App {
     return this;
   }
 
-  listen(port: number) {
+  listen(port: number, callback?: Callback) {
+    this.callback = callback;
     this.setPort(port);
     this.application
       .listen(this.port, () => {
         console.log("----------------------------------------");
         console.log("     Server listening on port " + this.port);
         console.log("----------------------------------------");
+        if (this.callback) {
+          this.callback();
+        }
       })
       .on("error", (err) => {
         console.log(err);
