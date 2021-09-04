@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-practice",
+  "name": "express-sequelize-practice",
   "version": "0.0.0",
   "private": true,
   "scripts": {
