@@ -25,19 +25,18 @@ export default class App {
     }
   }
 
-  init(props: AppProps, callback?: Callback) {
+  init(props: AppProps) {
     this.application = express();
     const { port, middlewares, routers, errorHandlers } = props;
     this.setPort(port || this.port);
     this.setMiddleware(middlewares);
     this.setRouter(routers);
     this.setErrorHandler(errorHandlers);
-    this.callback = callback;
   }
 
   run(props?: AppProps, callback?: Callback) {
     if (props) {
-      this.init(props, callback);
+      this.init(props);
     }
     this.listen(this.port, callback);
     return this;
