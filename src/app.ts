@@ -16,7 +16,6 @@ export default class App {
   private middlewares: RequestHandler[] = [];
   private routers: Router[] = [];
   private errorHandlers: ErrorRequestHandler[] = [];
-  private callback?: Callback;
 
   constructor(props?: AppProps) {
     this.application = express();
@@ -30,7 +29,7 @@ export default class App {
     const { port, middlewares, routers, errorHandlers } = props;
     this.setPort(port || this.port);
     this.setMiddleware(middlewares);
-    this.setRouter(routers);
+    routers?.forEach(({ path, router }) => this.setRouter(path, router));
     this.setErrorHandler(errorHandlers);
   }
 
@@ -52,18 +51,11 @@ export default class App {
       return this;
     }
     this.middlewares = this.middlewares.concat(middlewares);
-    this.middlewares.forEach((middleware) => this.application.use(middleware));
     return this;
   }
 
-  setRouter(router: Router | Router[] = []) {
-    if (router === []) {
-      return this;
-    }
-    this.routers = this.routers.concat(router);
-    this.routers.forEach(({ path, router }) =>
-      this.application.use(path, router)
-    );
+  setRouter(path: string, router: RequestHandler) {
+    this.routers = this.routers.concat({ path, router });
     return this;
   }
 
@@ -74,19 +66,23 @@ export default class App {
       return this;
     }
     this.errorHandlers = this.errorHandlers.concat(errorHandlers);
-    this.errorHandlers.forEach((handler) => this.application.use(handler));
     return this;
   }
 
   listen(port: number, callback?: Callback) {
-    this.callback = callback;
     this.setPort(port);
+    this.middlewares.forEach((middleware) => this.application.use(middleware));
+    this.routers.forEach(({ path, router }) =>
+      this.application.use(path, router)
+    );
+    this.errorHandlers.forEach((handler) => this.application.use(handler));
+
     this.application.listen(this.port, () => {
       console.log("----------------------------------------");
       console.log("     Server listening on port " + this.port);
       console.log("----------------------------------------");
-      if (this.callback) {
-        this.callback();
+      if (callback) {
+        callback();
       }
     });
     return this;
