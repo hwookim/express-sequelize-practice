@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import userRouter from "./UserRouter";
 
 const rootRouter = express();
 
-rootRouter.use("/", (req: Request, res: Response) => {
-  res.status(200).json("hi");
-});
+rootRouter.use("/user", userRouter);
 
 export default rootRouter;
