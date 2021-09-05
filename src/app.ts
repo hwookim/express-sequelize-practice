@@ -82,18 +82,14 @@ export default class App {
   listen(port: number, callback?: Callback) {
     this.callback = callback;
     this.setPort(port);
-    this.application
-      .listen(this.port, () => {
-        console.log("----------------------------------------");
-        console.log("     Server listening on port " + this.port);
-        console.log("----------------------------------------");
-        if (this.callback) {
-          this.callback();
-        }
-      })
-      .on("error", (err) => {
-        console.log(err);
-      });
+    this.application.listen(this.port, () => {
+      console.log("----------------------------------------");
+      console.log("     Server listening on port " + this.port);
+      console.log("----------------------------------------");
+      if (this.callback) {
+        this.callback();
+      }
+    });
     return this;
   }
 }
