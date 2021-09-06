@@ -1,12 +1,12 @@
 import express, { ErrorRequestHandler, RequestHandler } from "express";
 import { Container } from "typedi";
 import { useContainer, useExpressServer } from "routing-controllers";
-import UserController from "./controllers/UserController";
 
 type Callback = () => void;
 
 interface AppProps {
   middlewares?: RequestHandler[];
+  controllers?: Function[];
   errorHandlers?: ErrorRequestHandler[];
   port?: number;
 }
@@ -15,6 +15,7 @@ export default class App {
   private application: express.Application;
   private port: number = 3000;
   private middlewares: RequestHandler[] = [];
+  private controllers: Function[] = [];
   private errorHandlers: ErrorRequestHandler[] = [];
 
   constructor(props?: AppProps) {
@@ -26,9 +27,10 @@ export default class App {
 
   init(props: AppProps) {
     this.application = express();
-    const { port, middlewares, errorHandlers } = props;
+    const { port, middlewares, controllers, errorHandlers } = props;
     this.setPort(port || this.port);
     this.setMiddleware(middlewares);
+    this.setController(controllers);
     this.setErrorHandler(errorHandlers);
   }
 
@@ -50,6 +52,11 @@ export default class App {
     return this;
   }
 
+  setController(controller: Function | Function[] = []) {
+    this.controllers = this.controllers.concat(controller);
+    return this;
+  }
+
   setErrorHandler(
     errorHandlers: ErrorRequestHandler | ErrorRequestHandler[] = []
   ) {
@@ -63,7 +70,7 @@ export default class App {
     useContainer(Container);
     useExpressServer(this.application, {
       routePrefix: "/api",
-      controllers: [UserController],
+      controllers: this.controllers,
     });
     this.errorHandlers.forEach((handler) => this.application.use(handler));
 
