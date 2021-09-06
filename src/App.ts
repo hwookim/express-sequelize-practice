@@ -5,15 +5,17 @@ import { useContainer, useExpressServer } from "routing-controllers";
 type Callback = () => void;
 
 interface AppProps {
+  port?: number;
+  baseUrl?: string;
   middlewares?: RequestHandler[];
   controllers?: Function[];
   errorHandlers?: ErrorRequestHandler[];
-  port?: number;
 }
 
 export default class App {
   private application: express.Application;
   private port: number = 3000;
+  private baseUrl?: string;
   private middlewares: RequestHandler[] = [];
   private controllers: Function[] = [];
   private errorHandlers: ErrorRequestHandler[] = [];
@@ -27,8 +29,9 @@ export default class App {
 
   init(props: AppProps) {
     this.application = express();
-    const { port, middlewares, controllers, errorHandlers } = props;
+    const { port, baseUrl, middlewares, controllers, errorHandlers } = props;
     this.setPort(port || this.port);
+    this.setBaseUrl(baseUrl || this.baseUrl || "");
     this.setMiddleware(middlewares);
     this.setController(controllers);
     this.setErrorHandler(errorHandlers);
@@ -44,6 +47,11 @@ export default class App {
 
   setPort(port: number) {
     this.port = port;
+    return this;
+  }
+
+  setBaseUrl(baseUrl: string) {
+    this.baseUrl = baseUrl;
     return this;
   }
 
@@ -69,7 +77,7 @@ export default class App {
     this.middlewares.forEach((middleware) => this.application.use(middleware));
     useContainer(Container);
     useExpressServer(this.application, {
-      routePrefix: "/api",
+      routePrefix: this.baseUrl,
       controllers: this.controllers,
     });
     this.errorHandlers.forEach((handler) => this.application.use(handler));

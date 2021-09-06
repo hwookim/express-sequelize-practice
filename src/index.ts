@@ -6,6 +6,7 @@ import sequelize from "./models";
 
 new App()
   .setPort(3000)
+  .setBaseUrl("/api")
   .setMiddleware(express.json())
   .setController(UserController)
   .setErrorHandler((err, req, res, next) => console.log(err))
