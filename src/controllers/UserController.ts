@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { Response } from "express";
+import RequestValidator from "../utils/RequestValidator";
 import UserCreateRequest from "../requests/user/UserCreateRequest";
 import userService from "../services/UserService";
 
 class UserController {
-  public async create(req: Request, res: Response): Promise<void> {
-    const request = new UserCreateRequest(req);
-    await request.validate();
-    await userService.create(request);
+  @RequestValidator(UserCreateRequest)
+  public async create(req: UserCreateRequest, res: Response): Promise<void> {
+    await userService.create(req);
     res.status(201).send();
   }
 }
