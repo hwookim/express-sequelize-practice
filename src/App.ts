@@ -1,11 +1,11 @@
 import express, { ErrorRequestHandler, RequestHandler } from "express";
+import { useExpressServer } from "routing-controllers";
+import UserController from "./controllers/UserController";
 
 type Callback = () => void;
-type Router = { path: string; router: RequestHandler };
 
 interface AppProps {
   middlewares?: RequestHandler[];
-  routers?: Router[];
   errorHandlers?: ErrorRequestHandler[];
   port?: number;
 }
@@ -14,7 +14,6 @@ export default class App {
   private application: express.Application;
   private port: number = 3000;
   private middlewares: RequestHandler[] = [];
-  private routers: Router[] = [];
   private errorHandlers: ErrorRequestHandler[] = [];
 
   constructor(props?: AppProps) {
@@ -26,10 +25,9 @@ export default class App {
 
   init(props: AppProps) {
     this.application = express();
-    const { port, middlewares, routers, errorHandlers } = props;
+    const { port, middlewares, errorHandlers } = props;
     this.setPort(port || this.port);
     this.setMiddleware(middlewares);
-    routers?.forEach(({ path, router }) => this.setRouter(path, router));
     this.setErrorHandler(errorHandlers);
   }
 
@@ -51,11 +49,6 @@ export default class App {
     return this;
   }
 
-  setRouter(path: string, router: RequestHandler) {
-    this.routers = this.routers.concat({ path, router });
-    return this;
-  }
-
   setErrorHandler(
     errorHandlers: ErrorRequestHandler | ErrorRequestHandler[] = []
   ) {
@@ -66,9 +59,10 @@ export default class App {
   listen(port: number, callback?: Callback) {
     this.setPort(port);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
-    this.routers.forEach(({ path, router }) =>
-      this.application.use(path, router)
-    );
+    useExpressServer(this.application, {
+      routePrefix: "/api",
+      controllers: [UserController],
+    });
     this.errorHandlers.forEach((handler) => this.application.use(handler));
 
     this.application.listen(this.port, () => {

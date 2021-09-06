@@ -1,5 +1,5 @@
 import userRepository from "../repositories/UserRepository";
-import UserCreateRequest from "../requests/user/UserCreateRequest";
+import UserCreateRequest from "../requests/UserCreateRequest";
 import { UserCreationAttributes } from "../models/User";
 
 class UserService {
