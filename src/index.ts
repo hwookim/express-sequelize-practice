@@ -1,5 +1,5 @@
 import "./config/env";
-import App from "./app";
+import App from "./App";
 import express from "express";
 import rootRouter from "./routers";
 import sequelize from "./models";
