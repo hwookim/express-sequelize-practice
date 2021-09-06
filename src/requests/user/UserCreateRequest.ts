@@ -1,4 +1,6 @@
 import { Request } from "express";
+import BaseRequest from "../BaseRequest";
+import { IsNotEmpty, IsString } from "class-validator";
 
 interface UserCreateRequestProps extends Request {
   body: {
@@ -7,12 +9,18 @@ interface UserCreateRequestProps extends Request {
   };
 }
 
-class UserCreateRequest {
+class UserCreateRequest extends BaseRequest {
+  @IsNotEmpty()
+  @IsString()
   loginId: string;
+
+  @IsNotEmpty()
+  @IsString()
   password: string;
 
-  constructor(props: UserCreateRequestProps) {
-    const { loginId, password } = props.body;
+  constructor(req: UserCreateRequestProps) {
+    super(req);
+    const { loginId, password } = req.body;
     this.loginId = loginId;
     this.password = password;
   }

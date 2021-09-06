@@ -4,8 +4,8 @@ import userService from "../services/UserService";
 
 class UserController {
   public async create(req: Request, res: Response): Promise<void> {
-    // TODO: request 검증
     const request = new UserCreateRequest(req);
+    await request.validate();
     await userService.create(request);
     res.status(201).send();
   }
