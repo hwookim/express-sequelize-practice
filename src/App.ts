@@ -47,9 +47,6 @@ export default class App {
   }
 
   setMiddleware(middlewares: RequestHandler | RequestHandler[] = []) {
-    if (middlewares === []) {
-      return this;
-    }
     this.middlewares = this.middlewares.concat(middlewares);
     return this;
   }
@@ -62,9 +59,6 @@ export default class App {
   setErrorHandler(
     errorHandlers: ErrorRequestHandler | ErrorRequestHandler[] = []
   ) {
-    if (errorHandlers === []) {
-      return this;
-    }
     this.errorHandlers = this.errorHandlers.concat(errorHandlers);
     return this;
   }
