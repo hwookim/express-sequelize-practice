@@ -1,5 +1,6 @@
 import express, { ErrorRequestHandler, RequestHandler } from "express";
-import { useExpressServer } from "routing-controllers";
+import { Container } from "typedi";
+import { useContainer, useExpressServer } from "routing-controllers";
 import UserController from "./controllers/UserController";
 
 type Callback = () => void;
@@ -59,6 +60,7 @@ export default class App {
   listen(port: number, callback?: Callback) {
     this.setPort(port);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
+    useContainer(Container);
     useExpressServer(this.application, {
       routePrefix: "/api",
       controllers: [UserController],

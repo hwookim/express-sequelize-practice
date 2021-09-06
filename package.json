@@ -25,6 +25,7 @@
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.9.0",
     "sequelize": "^6.6.5",
-    "sequelize-typescript": "^2.1.0"
+    "sequelize-typescript": "^2.1.0",
+    "typedi": "^0.10.0"
   }
 }
