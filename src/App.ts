@@ -27,7 +27,7 @@ export default class App {
     }
   }
 
-  init(props: AppProps) {
+  private init(props: AppProps) {
     this.application = express();
     const { port, baseUrl, middlewares, controllers, errorHandlers } = props;
     this.setPort(port || this.port);
@@ -37,7 +37,7 @@ export default class App {
     this.setErrorHandler(errorHandlers);
   }
 
-  run(props?: AppProps, callback?: Callback) {
+  public run(props?: AppProps, callback?: Callback) {
     if (props) {
       this.init(props);
     }
@@ -45,34 +45,34 @@ export default class App {
     return this;
   }
 
-  setPort(port: number) {
+  public setPort(port: number) {
     this.port = port;
     return this;
   }
 
-  setBaseUrl(baseUrl: string) {
+  public setBaseUrl(baseUrl: string) {
     this.baseUrl = baseUrl;
     return this;
   }
 
-  setMiddleware(middlewares: RequestHandler | RequestHandler[] = []) {
+  public setMiddleware(middlewares: RequestHandler | RequestHandler[] = []) {
     this.middlewares = this.middlewares.concat(middlewares);
     return this;
   }
 
-  setController(controller: Function | Function[] = []) {
+  public setController(controller: Function | Function[] = []) {
     this.controllers = this.controllers.concat(controller);
     return this;
   }
 
-  setErrorHandler(
+  public setErrorHandler(
     errorHandlers: ErrorRequestHandler | ErrorRequestHandler[] = []
   ) {
     this.errorHandlers = this.errorHandlers.concat(errorHandlers);
     return this;
   }
 
-  listen(port: number, callback?: Callback) {
+  public listen(port: number, callback?: Callback) {
     this.setPort(port);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
     useContainer(Container);
