@@ -2,8 +2,6 @@ import express, { ErrorRequestHandler, RequestHandler } from "express";
 import { Container } from "typedi";
 import { useContainer, useExpressServer } from "routing-controllers";
 
-type Callback = () => void;
-
 interface AppProps {
   port?: number;
   baseUrl?: string;
@@ -37,7 +35,7 @@ export default class App {
     this.setErrorHandler(errorHandlers);
   }
 
-  public run(props?: AppProps, callback?: Callback) {
+  public run(props?: AppProps, callback?: Function) {
     if (props) {
       this.init(props);
     }
@@ -72,7 +70,7 @@ export default class App {
     return this;
   }
 
-  public listen(port: number, callback?: Callback) {
+  public listen(port: number, callback?: Function) {
     this.setPort(port);
     this.middlewares.forEach((middleware) => this.application.use(middleware));
     useContainer(Container);
