@@ -23,7 +23,10 @@ class AuthController {
     @Res() res: Response
   ): Promise<void> {
     const token = await this.userService.create(userCreateRequest);
-    res.cookie("accessToken", token);
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: true,
+    });
   }
 }
 
