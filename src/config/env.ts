@@ -15,6 +15,7 @@ const env = {
   DB_USERNAME: loadEnvironment("DB_USERNAME"),
   DB_PASSWORD: loadEnvironment("DB_PASSWORD"),
   DB_HOST: loadEnvironment("DB_HOST"),
+  BCRYPT_SALT_ROUNDS: loadEnvironment("BCRYPT_SALT_ROUNDS"),
 };
 
 export default env;
