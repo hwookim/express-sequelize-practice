@@ -1,13 +1,14 @@
 import "./config/env";
 import App from "./App";
 import express from "express";
+import cookieParser from "cookie-parser";
 import AuthController from "./controllers/AuthController";
 import sequelize from "./models";
 
 new App()
   .setPort(3000)
   .setBaseUrl("/api")
-  .setMiddleware(express.json())
+  .setMiddleware([express.json(), cookieParser()])
   .setController(AuthController)
   .setErrorHandler((err, req, res, next) => console.log(err))
   .run({}, async () => {
