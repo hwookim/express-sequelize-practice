@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-class UserCreateRequest {
+class RegisterRequest {
   @IsNotEmpty()
   @IsString()
   public loginId: string;
@@ -10,4 +10,4 @@ class UserCreateRequest {
   public password: string;
 }
 
-export default UserCreateRequest;
+export default RegisterRequest;

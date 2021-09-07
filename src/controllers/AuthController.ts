@@ -1,19 +1,19 @@
 import { Body, JsonController, OnUndefined, Post } from "routing-controllers";
 import { Inject, Service } from "typedi";
 import UserService from "../services/UserService";
-import UserCreateRequest from "../requests/UserCreateRequest";
+import RegisterRequest from "../requests/RegisterRequest";
 
 @Service()
-@JsonController("/users")
-class UserController {
+@JsonController("/auth")
+class AuthController {
   @Inject()
   private readonly userService: UserService;
 
-  @Post()
+  @Post("/register")
   @OnUndefined(201)
-  async create(@Body() userCreateRequest: UserCreateRequest): Promise<void> {
+  async register(@Body() userCreateRequest: RegisterRequest): Promise<void> {
     return this.userService.create(userCreateRequest);
   }
 }
 
-export default UserController;
+export default AuthController;
