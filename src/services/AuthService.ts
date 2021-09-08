@@ -16,7 +16,7 @@ class AuthService {
   public async create(req: RegisterRequest): Promise<string> {
     const hashedPassword = await bcrypt.hash(
       req.password,
-      parseInt(env.BCRYPT_SALT_ROUNDS)
+      env.BCRYPT_SALT_ROUNDS
     );
 
     const user: UserCreationAttributes = { ...req, password: hashedPassword };

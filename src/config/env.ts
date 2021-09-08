@@ -8,7 +8,7 @@ const env = {
   DB_USERNAME: loadEnvironment("DB_USERNAME"),
   DB_PASSWORD: loadEnvironment("DB_PASSWORD"),
   DB_HOST: loadEnvironment("DB_HOST"),
-  BCRYPT_SALT_ROUNDS: loadEnvironment("BCRYPT_SALT_ROUNDS"),
+  BCRYPT_SALT_ROUNDS: +loadEnvironment("BCRYPT_SALT_ROUNDS"),
   JWT_SECRET: loadEnvironment("JWT_SECRET"),
   TOKEN_EXPIRES_IN: +loadEnvironment("TOKEN_EXPIRES_DAY") * DAY_TO_MS,
 };
