@@ -13,7 +13,7 @@ class AuthService {
   @Inject()
   private readonly jwtService: JwtService;
 
-  public async create(req: RegisterRequest): Promise<string> {
+  public async register(req: RegisterRequest): Promise<string> {
     const hashedPassword = await bcrypt.hash(
       req.password,
       env.BCRYPT_SALT_ROUNDS
