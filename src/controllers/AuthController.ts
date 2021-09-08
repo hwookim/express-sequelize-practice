@@ -15,7 +15,7 @@ import cookieOption from "../config/cookie";
 @JsonController("/auth")
 class AuthController {
   @Inject()
-  private readonly userService: AuthService;
+  private readonly authService: AuthService;
 
   @Post("/register")
   @OnUndefined(201)
@@ -23,7 +23,7 @@ class AuthController {
     @Body() userCreateRequest: RegisterRequest,
     @Res() res: Response
   ): Promise<void> {
-    const token = await this.userService.create(userCreateRequest);
+    const token = await this.authService.create(userCreateRequest);
     res.cookie("accessToken", token, cookieOption);
   }
 }
