@@ -1,14 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-function loadEnvironment(key: string): string {
-  const value = process.env[key];
-  if (value === undefined) {
-    throw new Error(`환경변수 ${key}가 설정되지 않음`);
-  }
-
-  return value;
-}
+const DAY_TO_MS = 24 * 60 * 60 * 1000;
 
 const env = {
   DB_NAME: loadEnvironment("DB_NAME"),
@@ -17,7 +10,16 @@ const env = {
   DB_HOST: loadEnvironment("DB_HOST"),
   BCRYPT_SALT_ROUNDS: loadEnvironment("BCRYPT_SALT_ROUNDS"),
   JWT_SECRET: loadEnvironment("JWT_SECRET"),
-  JWT_EXPIRES_IN: loadEnvironment("JWT_EXPIRES_IN"),
+  TOKEN_EXPIRES_IN: +loadEnvironment("TOKEN_EXPIRES_DAY") * DAY_TO_MS,
 };
+
+function loadEnvironment(key: string): string {
+  const value = process.env[key];
+  if (value === undefined) {
+    throw new Error(`환경변수 ${key}가 설정되지 않음`);
+  }
+
+  return value;
+}
 
 export default env;

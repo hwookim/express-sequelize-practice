@@ -6,7 +6,7 @@ import env from "../config/env";
 class JwtService {
   public generate(userId: string): string {
     return jwt.sign({ userId }, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN,
+      expiresIn: env.TOKEN_EXPIRES_IN,
     });
   }
 }
