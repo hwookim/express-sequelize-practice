@@ -8,6 +8,7 @@ import {
 import { Inject, Service } from "typedi";
 import AuthService from "../services/AuthService";
 import RegisterRequest from "../requests/RegisterRequest";
+import LoginRequest from "../requests/LoginRequest";
 import { Response } from "express";
 import cookieOption from "../config/cookie";
 
@@ -24,6 +25,16 @@ class AuthController {
     @Res() res: Response
   ): Promise<void> {
     const token = await this.authService.register(userCreateRequest);
+    res.cookie("accessToken", token, cookieOption);
+  }
+
+  @Post("/login")
+  @OnUndefined(200)
+  public async login(
+    @Body() req: LoginRequest,
+    @Res() res: Response
+  ): Promise<void> {
+    const token = await this.authService.login(req);
     res.cookie("accessToken", token, cookieOption);
   }
 }
