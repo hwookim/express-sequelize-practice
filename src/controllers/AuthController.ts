@@ -37,6 +37,12 @@ class AuthController {
     const token = await this.authService.login(req);
     res.cookie("accessToken", token, cookieOption);
   }
+
+  @Post("/logout")
+  @OnUndefined(200)
+  public async logout(@Res() res: Response): Promise<void> {
+    res.clearCookie("accessToken");
+  }
 }
 
 export default AuthController;
