@@ -1,6 +1,7 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import env from "../config/env";
 import User from "./User";
+import Post from "./Post";
 
 const options: SequelizeOptions = {
   database: env.DB_NAME,
@@ -10,7 +11,7 @@ const options: SequelizeOptions = {
   logging: !(process.env.NODE_ENV === "production"),
   dialect: "mysql",
   timezone: "+09:00",
-  models: [User],
+  models: [User, Post],
 };
 
 const sequelize = new Sequelize(options);
