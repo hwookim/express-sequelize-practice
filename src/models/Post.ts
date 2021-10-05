@@ -7,13 +7,15 @@ import {
   AllowNull,
   ForeignKey,
   BelongsTo,
+  PrimaryKey,
+  AutoIncrement,
 } from "sequelize-typescript";
 import User from "./User";
 
 export interface PostAttributes {
   id: number;
-  loginId: string;
-  password: string;
+  contents: string;
+  user: User;
 }
 
 export interface PostCreationAttributes
@@ -27,6 +29,11 @@ export default class Post extends Model<
   PostAttributes,
   PostCreationAttributes
 > {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id!: number;
+
   @AllowNull(false)
   @Column(DataType.STRING)
   contents!: string;
@@ -37,5 +44,5 @@ export default class Post extends Model<
   @AllowNull(false)
   @ForeignKey(() => User)
   @Column
-  user_id!: string;
+  userId!: string;
 }
