@@ -16,10 +16,11 @@ export interface PostAttributes {
   id: number;
   contents: string;
   user: User;
+  userId: string;
 }
 
 export interface PostCreationAttributes
-  extends Optional<PostAttributes, "id"> {}
+  extends Optional<PostAttributes, "id" | "user"> {}
 
 @Table({
   tableName: "post",
