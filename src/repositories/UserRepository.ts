@@ -3,6 +3,12 @@ import User, { UserAttributes, UserCreationAttributes } from "../models/User";
 
 @Service()
 class UserRepository {
+  public async findById(
+    id: UserAttributes["id"]
+  ): Promise<UserAttributes | null> {
+    return User.findByPk(id);
+  }
+
   public async create(user: UserCreationAttributes): Promise<UserAttributes> {
     return User.create(user);
   }
