@@ -13,6 +13,5 @@ new App()
   .setController([AuthController, PostController])
   .setErrorHandler((err, req, res, next) => console.log(err))
   .run({}, async () => {
-    // force option must be only practice
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
   });
