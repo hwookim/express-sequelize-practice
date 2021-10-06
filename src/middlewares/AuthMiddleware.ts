@@ -5,8 +5,8 @@ import JwtService from "../services/JwtService";
 import UserRepository from "../repositories/UserRepository";
 
 export interface AuthRequest extends Request {
-  headers: {
-    authorization: string;
+  cookies: {
+    accessToken: string;
   };
 }
 
@@ -23,7 +23,7 @@ export default class AuthMiddleware implements ExpressMiddlewareInterface {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const token = req.headers.authorization.split("Bearer ")[1];
+    const token = req.cookies.accessToken;
     if (!token) {
       throw new Error("토큰이 없습니다");
     }
