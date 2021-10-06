@@ -24,12 +24,10 @@ export default class AuthMiddleware implements ExpressMiddlewareInterface {
     next: NextFunction
   ): Promise<void> {
     const token = req.headers.authorization.split("Bearer ")[1];
-    console.log(token);
     if (!token) {
       throw new Error("토큰이 없습니다");
     }
     const userId = this.jwtService.verify(token);
-    console.log(userId);
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error("잘못된 접근");
