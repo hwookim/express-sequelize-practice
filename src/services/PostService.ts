@@ -18,4 +18,11 @@ export default class PostService {
     };
     return this.postRepository.create(post);
   }
+
+  public async remove(id: number): Promise<void> {
+    const result = await this.postRepository.remove(id);
+    if (!result) {
+      throw new Error("삭제 대상이 없습니다.");
+    }
+  }
 }

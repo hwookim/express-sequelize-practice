@@ -6,6 +6,10 @@ class PostRepository {
   public async create(post: PostCreationAttributes): Promise<PostAttributes> {
     return Post.create(post);
   }
+
+  public async remove(id: number): Promise<number> {
+    return Post.destroy({ where: { id } });
+  }
 }
 
 export default PostRepository;

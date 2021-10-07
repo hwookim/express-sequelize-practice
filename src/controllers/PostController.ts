@@ -1,7 +1,10 @@
 import {
   Body,
+  Delete,
   HttpCode,
   JsonController,
+  OnUndefined,
+  Param,
   Post,
   Res,
   UseBefore,
@@ -27,5 +30,12 @@ export default class PostController {
     @Res() res: Response
   ): Promise<PostAttributes> {
     return await this.postService.write(req, res.locals.userId);
+  }
+
+  @Delete("/:id")
+  @OnUndefined(204)
+  @UseBefore(AuthMiddleware)
+  public async remove(@Param("id") id: number): Promise<void> {
+    await this.postService.remove(id);
   }
 }
