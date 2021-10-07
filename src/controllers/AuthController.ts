@@ -14,7 +14,7 @@ import cookieOption from "../config/cookie";
 
 @Service()
 @JsonController("/auth")
-class AuthController {
+export default class AuthController {
   @Inject()
   private readonly authService: AuthService;
 
@@ -44,5 +44,3 @@ class AuthController {
     res.clearCookie("accessToken");
   }
 }
-
-export default AuthController;

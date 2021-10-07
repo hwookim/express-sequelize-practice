@@ -8,7 +8,7 @@ import JwtService from "./JwtService";
 import LoginRequest from "../requests/LoginRequest";
 
 @Service()
-class AuthService {
+export default class AuthService {
   @Inject()
   private readonly userRepository: UserRepository;
   @Inject()
@@ -38,5 +38,3 @@ class AuthService {
     return this.jwtService.generate(id);
   }
 }
-
-export default AuthService;

@@ -24,7 +24,10 @@ export interface UserCreationAttributes
   tableName: "user",
   underscored: true,
 })
-class User extends Model<UserAttributes, UserCreationAttributes> {
+export default class User extends Model<
+  UserAttributes,
+  UserCreationAttributes
+> {
   @IsUUID(4)
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -40,5 +43,3 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   @Column
   password!: string;
 }
-
-export default User;

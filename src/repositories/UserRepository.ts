@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import User, { UserAttributes, UserCreationAttributes } from "../models/User";
 
 @Service()
-class UserRepository {
+export default class UserRepository {
   public async findById(
     id: UserAttributes["id"]
   ): Promise<UserAttributes | null> {
@@ -19,5 +19,3 @@ class UserRepository {
     return User.findOne({ where: { loginId } });
   }
 }
-
-export default UserRepository;

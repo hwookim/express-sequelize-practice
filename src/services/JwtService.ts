@@ -7,7 +7,7 @@ interface JwtPayload extends jwt.JwtPayload {
 }
 
 @Service()
-class JwtService {
+export default class JwtService {
   public generate(userId: string): string {
     return jwt.sign({ userId }, env.JWT_SECRET, {
       expiresIn: env.TOKEN_EXPIRES_IN,
@@ -19,5 +19,3 @@ class JwtService {
     return payload.userId;
   }
 }
-
-export default JwtService;
