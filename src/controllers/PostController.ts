@@ -13,8 +13,8 @@ import { Inject, Service } from "typedi";
 import { Response } from "express";
 import CreatePostRequest from "../requests/CreatePostRequest";
 import PostService from "../services/PostService";
-import { PostAttributes } from "../models/Post";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
+import CreatePostResponse from "../responses/CreatePostResponse";
 
 @Service()
 @JsonController("/posts")
@@ -28,7 +28,7 @@ export default class PostController {
   public async write(
     @Body() req: CreatePostRequest,
     @Res() res: Response
-  ): Promise<PostAttributes> {
+  ): Promise<CreatePostResponse> {
     return await this.postService.write(req, res.locals.userId);
   }
 

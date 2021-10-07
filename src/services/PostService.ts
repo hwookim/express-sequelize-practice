@@ -1,7 +1,8 @@
 import { Inject, Service } from "typedi";
 import PostRepository from "../repositories/PostRepository";
-import { PostAttributes, PostCreationAttributes } from "../models/Post";
+import { PostCreationAttributes } from "../models/Post";
 import CreatePostRequest from "../requests/CreatePostRequest";
+import CreatePostResponse from "../responses/CreatePostResponse";
 
 @Service()
 export default class PostService {
@@ -11,12 +12,13 @@ export default class PostService {
   public async write(
     req: CreatePostRequest,
     userId: string
-  ): Promise<PostAttributes> {
+  ): Promise<CreatePostResponse> {
     const post: PostCreationAttributes = {
       ...req,
       userId,
     };
-    return this.postRepository.create(post);
+    const created = await this.postRepository.create(post);
+    return new CreatePostResponse(created);
   }
 
   public async remove(id: number): Promise<void> {
