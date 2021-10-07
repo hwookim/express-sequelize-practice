@@ -22,7 +22,7 @@ export default class PostController {
   @Post()
   @HttpCode(201)
   @UseBefore(AuthMiddleware)
-  public async register(
+  public async write(
     @Body() req: CreatePostRequest,
     @Res() res: Response
   ): Promise<PostAttributes> {
