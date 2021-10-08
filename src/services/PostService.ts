@@ -22,9 +22,13 @@ export default class PostService {
   }
 
   public async remove(id: number): Promise<void> {
-    const result = await this.postRepository.remove(id);
-    if (!result) {
+    const post = await this.postRepository.findById(id);
+    if (!post) {
       throw new Error("삭제 대상이 없습니다.");
     }
+    if (post.removed) {
+      throw new Error("이미 삭제된 게시글입니다.");
+    }
+    await this.postRepository.remove(id);
   }
 }

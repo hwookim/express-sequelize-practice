@@ -9,6 +9,7 @@ import {
   BelongsTo,
   PrimaryKey,
   AutoIncrement,
+  Default,
 } from "sequelize-typescript";
 import User from "./User";
 
@@ -17,6 +18,7 @@ export interface PostAttributes {
   contents: string;
   user: User;
   userId: string;
+  removed?: boolean;
 }
 
 export interface PostCreationAttributes
@@ -46,4 +48,8 @@ export default class Post extends Model<
   @ForeignKey(() => User)
   @Column
   userId!: string;
+
+  @Default(false)
+  @Column
+  removed?: boolean;
 }
