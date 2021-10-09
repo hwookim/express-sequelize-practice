@@ -11,6 +11,15 @@ export default class PostRepository {
     return Post.create(post);
   }
 
+  public async update(id: number, contents: string) {
+    return Post.update(
+      {
+        contents,
+      },
+      { where: { id } }
+    );
+  }
+
   public async remove(id: number): Promise<number> {
     const [deleted] = await Post.update(
       {

@@ -3,6 +3,8 @@ import PostRepository from "../repositories/PostRepository";
 import { PostCreationAttributes } from "../models/Post";
 import CreatePostRequest from "../requests/CreatePostRequest";
 import CreatePostResponse from "../responses/CreatePostResponse";
+import UpdatePostRequest from "../requests/UpdatePostRequest";
+import UpdatePostResponse from "../responses/UpdatePostResponse";
 
 @Service()
 export default class PostService {
@@ -19,6 +21,14 @@ export default class PostService {
     };
     const created = await this.postRepository.create(post);
     return new CreatePostResponse(created);
+  }
+
+  public async update(
+    id: number,
+    req: UpdatePostRequest
+  ): Promise<UpdatePostResponse> {
+    const [, updated] = await this.postRepository.update(id, req.contents);
+    return new UpdatePostResponse(updated[0]);
   }
 
   public async remove(id: number): Promise<void> {
