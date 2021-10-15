@@ -5,6 +5,7 @@ import CreatePostRequest from "../requests/CreatePostRequest";
 import CreatePostResponse from "../responses/CreatePostResponse";
 import UpdatePostRequest from "../requests/UpdatePostRequest";
 import UpdatePostResponse from "../responses/UpdatePostResponse";
+import HttpError from "../errors/HttpError";
 
 @Service()
 export default class PostService {
@@ -34,10 +35,10 @@ export default class PostService {
   public async remove(id: number): Promise<void> {
     const post = await this.postRepository.findById(id);
     if (!post) {
-      throw new Error("삭제 대상이 없습니다.");
+      throw new HttpError(404, "해당 id의 post가 없습니다.");
     }
     if (post.removed) {
-      throw new Error("이미 삭제된 게시글입니다.");
+      throw new HttpError(400, "이미 삭제된 게시글입니다.");
     }
     await this.postRepository.remove(id);
   }

@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import env from "../config/env";
 import JwtService from "./JwtService";
 import LoginRequest from "../requests/LoginRequest";
+import HttpError from "../errors/HttpError";
 
 @Service()
 export default class AuthService {
@@ -28,12 +29,12 @@ export default class AuthService {
   public async login(req: LoginRequest): Promise<string> {
     const user = await this.userRepository.findByLoginId(req.loginId);
     if (!user) {
-      throw new Error("해당 id의 유저가 없습니다.");
+      throw new HttpError(404, "해당 id의 유저가 없습니다.");
     }
     const { id, password } = user;
     const isValidPassword = await bcrypt.compare(req.password, password);
     if (!isValidPassword) {
-      throw new Error("비밀번호가 잘못되었습니다.");
+      throw new HttpError(403, "비밀번호가 잘못되었습니다.");
     }
     return this.jwtService.generate(id);
   }

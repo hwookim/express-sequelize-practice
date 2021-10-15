@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { Inject, Service } from "typedi";
 import JwtService from "../services/JwtService";
 import UserRepository from "../repositories/UserRepository";
+import HttpError from "../errors/HttpError";
 
 export interface AuthRequest extends Request {
   cookies: {
@@ -25,12 +26,12 @@ export default class AuthMiddleware implements ExpressMiddlewareInterface {
   ): Promise<void> {
     const token = req.cookies.accessToken;
     if (!token) {
-      throw new Error("토큰이 없습니다");
+      throw new HttpError(401, "토큰이 없습니다.");
     }
     const userId = this.jwtService.verify(token);
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new Error("잘못된 접근");
+      throw new HttpError(403, "잘못된 요청입니다.");
     }
     res.locals.userId = userId;
     next();
