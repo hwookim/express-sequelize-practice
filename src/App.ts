@@ -77,6 +77,7 @@ export default class App {
     useExpressServer(this.application, {
       routePrefix: this.baseUrl,
       controllers: this.controllers,
+      defaultErrorHandler: false,
     });
     this.errorHandlers.forEach((handler) => this.application.use(handler));
 
